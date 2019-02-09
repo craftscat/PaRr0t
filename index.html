@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <!-- meta情報 -->
+    <meta charset="utf-8">
+    <title>PaRr0t | WEB会議システム</title>
+    <meta name="description" content="PaRr0tはSkywayとWEB Speech APIを利用した開発したブラウザで使えるWEB会議システムです。ユーザー名と部屋の名前を入力するだけで自動でつながります。">
+    <meta name="keywords" content="ビデオ通話, wewic">
+    <!-- CSS -->
+    <link rel="stylesheet" href="./css/style.css">
+    <link rel="stylesheet" href="./css/style2.css">
+    <!-- Bootstrap4 -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+  </head>
+
+  <body>
+  <!-- ヘッダー -->
+  <header>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <p class="navbar-brand"><h2>PaRr0t</h2></p>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNavDropdown">
+        <ul class="navbar-nav mr-auto"></ul>
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item">
+            <div class="select">
+              <label for="audioSource">Audio: </label><select id="audioSource"></select>
+            </div>
+          </li>
+          <li class="nav-item">
+            <div class="select">
+              <label for="videoSource">Video: </label><select id="videoSource"></select>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </nav>
+  </header>
+
+
+  <!-- エラー表示 -->
+  <!-- Get local audio/video stream -->
+  <div id="step1">
+    <div class="alert alert-danger" role="alert">
+      <p>「マイク」と「カメラ」の使用許可を求めるポップアップが出るので「許可」をクリックしてください</>
+    </div>
+    <div id="step1-error">
+      <div class="alert alert-danger" role="alert">
+        <p>Failed to access the webcam and microphone. Make sure to run this demo on an http server and click allow when asked for permission by the browser.</p>
+        <a href="#" class="pure-button pure-button-error" id="step1-retry">Try again</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ログイン画面 -->
+  <div id="step2">
+    <div class="room-name-display"><p>Let's Join!</p></div>
+    <div class="container">
+      <!--ログインフォーム-->
+      <form id="make-call" class="pure-form">
+        <div class="form-group">
+          <label for="exampleInputEmail1">User-Name</label>
+          <input type="text" placeholder="表示するユーザー名" id="username"><br>
+        </div>
+        <div class="form-group">
+          <label for="exampleInputPassword1">Room-Name</label>
+          <input type="text" placeholder="会議室の名前" id="join-room">
+        </div>
+        <button  id="join" class="pure-button pure-button-success" type="submit">JOIN</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- 会議中 -->
+  <div id="step3">
+    <div class="room-name-display"><p>会議室： <span id="room-id">...</span></p></div><!--会議室表示-->
+      <div class="row">
+        <!-- ビデオ表示画面 -->
+        <div class="col-md-8 col-sm-12" id="video-container">
+          <div id="their-videos"></div><!--他人のビデオ-->
+          <video id="my-video" muted="true" autoplay playsinline></video><!--自分のビデオ-->
+        </div>
+        <div class="col-md-4 col-sm-12">
+          <div class="end-wrap">
+            <p><a href="#" class="pure-button pure-button-error" id="end-call">End call</a></p><!--数章ボタン-->
+          </div> 
+        <div id="output"></div><!--音声認識処理-->
+      </div>
+    </div>
+  </div>
+
+  <!-- JavaScript -->
+  <!-- Skyway-->
+  <script src="https://www.gstatic.com/firebasejs/5.3.1/firebase.js"></script>
+  <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script type="text/javascript" src="//cdn.webrtc.ecl.ntt.com/skyway-latest.js"></script>
+  <!-- CSSテンプレート用JS -->
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+
+  <!-- WEB Speech API 処理 -->
+  <script type="text/javascript" src="./js/script.js"></script>
+  <!-- Skyway処理 -->
+  <script type="text/javascript" src="./js/script2.js"></script>
+  </body>
+</html>
